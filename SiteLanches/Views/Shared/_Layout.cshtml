@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - LanchesMac</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        .navbar-custom {
+            background-color: #ff6600; /* Cor personalizada para a barra de navegação */
+        }
+
+        .navbar-brand,
+        .navbar-nav .nav-link {
+            color: black !important; /* Força a cor preta para a marca e links de navegação */
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .navbar-nav .nav-link {
+            font-size: 1.2rem;
+        }
+
+        .jumbotron-custom {
+            background-color: #f8f9fa;
+            padding: 2rem;
+            border-radius: 0.5rem;
+        }
+
+            .jumbotron-custom h3 {
+                font-size: 2rem;
+                font-weight: bold;
+            }
+
+        .contact-info {
+            margin-top: 1.5rem;
+        }
+
+            .contact-info img {
+                width: 30px; /* Redimensiona as imagens de contato */
+                height: 30px;
+                margin-right: 0.5rem;
+            }
+
+            .contact-info h5 {
+                display: inline-block;
+                vertical-align: middle;
+            }
+
+        .footer-custom {
+            background-color: #343a40;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        .content {
+            padding-bottom: 50px; /* Espaço para o footer fixo */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-custom border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    Lanches
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    @await Component.InvokeAsync("CarrinhoCompraResumo")
+                    @await Component.InvokeAsync("CategoriaMenu")
+                    <ul class="navbar-nav">
+                        <form class="navbar-form navbar-right" asp-controller="Lanche" asp-action="Search" method="get">
+                            <div>
+                                <input type="text" class="form-control" placeholder="Procurar produto" name="searchString" value="@ViewData["searchString"]">
+                            </div>
+                        </form>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Contato" asp-action="Index">Contato</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container content">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="footer-custom">
+        <div class="container">
+            &copy; 2021 - LanchesMac
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
