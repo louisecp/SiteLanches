@@ -98,18 +98,14 @@ namespace SiteLanches.Models
 
         public List<CarrinhoCompraItem> GetCarrinhoCompraItens()
         {
-            Console.WriteLine($"Obtendo itens do carrinho com ID: {CarrinhoCompraId}");
-            var itens = _context.CarrinhoCompraItens
-                        .Where(c => c.CarrinhoCompraId == CarrinhoCompraId)
-                        .Include(s => s.Lanche)
-                        .ToList();
-
-            foreach (var item in itens)
+            if (CarrinhoCompraItens == null)
             {
-                Console.WriteLine($"Item: {item.Lanche.Name}, Quantidade: {item.Quantidade}");
+                CarrinhoCompraItens = _context.CarrinhoCompraItens
+                    .Where(c => c.CarrinhoCompraId == CarrinhoCompraId)
+                    .Include(s => s.Lanche)
+                    .ToList();
             }
-
-            return CarrinhoCompraItens ?? (CarrinhoCompraItens = itens);
+            return CarrinhoCompraItens;
         }
 
         public void LimparCarrinho()
