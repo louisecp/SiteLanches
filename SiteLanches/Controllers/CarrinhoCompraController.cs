@@ -31,7 +31,7 @@ namespace SiteLanches.Controllers
             return View(carrinhoCompraVM);
         }
 
-        public IActionResult AdicionarItemCarrinhoCompra(int lancheId)
+        public RedirectToActionResult AdicionarItemCarrinhoCompra(int lancheId)
         {
             var lancheSelecionado = _lancheRepository.Lanches.FirstOrDefault(p => p.LancheId == lancheId);
             if (lancheSelecionado != null)

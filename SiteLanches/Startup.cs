@@ -4,6 +4,9 @@ using SiteLanches.Repositories.Interfaces;
 using SiteLanches.Repositories;
 using SiteLanches.Models;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNetCore.Identity;
+using System.Runtime.Intrinsics.X86;
 
 namespace SiteLanches;
 public class Startup
@@ -21,6 +24,22 @@ public class Startup
         //registrando o Context como um serviço
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+        services.AddIdentity<Microsoft.AspNetCore.Identity.IdentityUser, Microsoft.AspNetCore.Identity.IdentityRole>()
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
+
+        //Esta linha está configurando as opções de identidade para o serviço. 
+        services.Configure<IdentityOptions>(options =>
+        {
+            //Default Password settings
+            options.Password.RequireDigit = true;//Define que a senha deve conter pelo menos um dígito numérico.
+            options.Password.RequireLowercase = true;//Define que a senha deve conter pelo menos uma letra minúscula.
+            options.Password.RequireNonAlphanumeric = true;//Define que a senha deve conter pelo menos um caractere não alfanumérico (como @, #, $, etc.).
+            options.Password.RequireUppercase = true; //Define que a senha deve conter pelo menos uma letra maiúscula.
+            options.Password.RequiredLength = 8; //Define que a senha deve ter no mínimo 8 caracteres de comprimento.
+            options.Password.RequiredUniqueChars = 1;//Define que a senha deve conter pelo menos 1 caractere único (não repetido).
+        });
 
         //toda vez que uma instância for solicitada referenciando a Interface o conteiner nativo da injeção de 
         //dependencia vai criar uma instancia da classe e vai injetar no construtor onde estiver sendo solicitado 
@@ -61,6 +80,7 @@ public class Startup
         //ativação do Session
         app.UseSession();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>

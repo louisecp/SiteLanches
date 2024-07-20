@@ -19,8 +19,8 @@ namespace SiteLanches.Controllers
         {
             return View();
         }
-        [HttpPost]
 
+        [HttpPost]
         public IActionResult Checkout(Pedido pedido)
         {
             int totalItensPedido = 0;
